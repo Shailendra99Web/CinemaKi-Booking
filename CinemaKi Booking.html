@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kdam+Thmor+Pro&family=Oswald&family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <title>CinemaKi Booking</title>
+    <style>
+        body{
+            color: white;
+            background-color: rgba(1, 1, 29, 0.815);
+            font-family: 'Poppins';
+        }
+
+        #container{
+            width: 50%;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 25vh;
+            text-align: center;
+        }
+
+        #option_main{
+            margin: 5px;
+            padding: 5px;
+            border: none;
+            border-radius: 6px;
+            background-color: rgba(23, 23, 32, 0.815);
+            display:inline-flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .option-detail{
+            /* display: flex; */
+            align-items: center;
+            display: inline;
+            margin: 1px;
+            font-size: small;
+        }
+
+        .option_icon{
+            margin-left: 8px;
+            padding: 7px;
+            border: none;
+            border-radius: 50%;
+            background-color: white;
+        }
+
+        #op_na{
+            background-color: rgba(112, 112, 112, 0.842);
+        }
+
+        #op_sel{
+            background-color: aqua;
+        }
+
+        #main{
+        margin: 12px auto 12px auto;
+        width:203px;
+        height: 50px;
+        position: relative;
+        }
+
+        #cinema_screen{
+            /* z-index: 10;
+            position: relative; */
+           
+            width:100%;
+            height:100%;
+            background-color: white;
+            clip-path: polygon(0 0, 100% 0, 95% 100%, 5% 100%);
+        }
+
+        #shadow{
+            position: absolute;
+            background: rgb(240, 239, 239);
+            width: 100%;
+            height: 100%;
+            filter: blur(40px);
+            left: 5px;
+            top: 5px;
+            clip-path: polygon(0 0, 100% 0, 95% 100%, 5% 100%);
+
+        }
+
+        #shadow2{
+            position: absolute;
+            background: rgb(240, 239, 239);
+            width: 100%;
+            height: 100%;
+            filter: blur(40px);
+            right: 5px;
+            top: 5px;
+            clip-path: polygon(0 0, 100% 0, 95% 100%, 5% 100%);
+        }
+
+        #seats{
+            display: flex;
+            flex-direction: row;
+            flex-wrap:nowrap;
+            justify-content: center;
+        }
+
+        #row_1{
+         /* border: 1px solid palevioletred; */
+         display: flex;
+         flex-direction: column;
+        }
+
+        #row_2{
+         /* border: 1px solid rgb(141, 88, 228);  */
+         display: flex;
+         flex-direction: column;   
+         margin-right: 15px;
+        }
+
+        #row_3{
+         /* border: 1px solid rgb(112, 178, 216);    */
+         display: flex;
+         flex-direction: column; 
+        }
+
+        #row_4{
+         /* border: 1px solid rgb(216, 188, 112);    */
+         display: flex;
+         flex-direction: column; 
+        }
+
+        #row_5{
+         /* border: 1px solid rgb(255, 0, 0);    */
+         display: flex;
+         flex-direction: column; 
+        }
+
+        #row_6{
+         /* border: 1px solid rgb(25, 0, 255);    */
+         display: flex;
+         flex-direction: column; 
+         margin-right: 15px;
+        }
+
+        #row_7{
+         /* border: 1px solid rgb(0, 255, 76);    */
+         display: flex;
+         flex-direction: column; 
+        }
+        #row_8{
+         /* border: 1px solid rgb(255, 0, 85);    */
+         display: flex;
+         flex-direction: column; 
+        }
+
+
+        .seat{
+            margin: 2px;
+            padding: 8px;
+            color: white;
+            background-color: rgba(112, 112, 112, 0.842); 
+            border: none;
+            border-radius: 50% 50% 2px 2px;;
+        }
+
+        .seat:hover{
+            cursor: pointer;
+        }
+
+        .occ{
+            background-color: white;
+        }
+
+        #error{
+            display: none;
+            animation: ans_fade_out .3s;
+        }
+
+        @keyframes ans_fade_out{
+            from{opacity: 0}
+            to{opacity: 1}
+        }
+</style>
+</head>
+<body>
+    <div id="container">
+        <p>Pick a movie: 
+            <select name="movie_name" id="movie_name" required>
+                <option value="">==Select your Movie==</option>
+                <option value="toy_story 4">Toy Story 4 ($8)</option>
+            </select>
+        </p>
+
+        <br>
+
+        <div id="option_main">
+            <p class="option-detail"><button id="op_na" class="option_icon"></button> N/A</p>
+            <p class="option-detail"><button id="op_sel" class="option_icon"></button> Selected</p>
+            <p class="option-detail"><button id="op_occ" class="option_icon"></button> Occupied</p>
+        </div>
+
+        <br>
+
+        <div id="main">
+            <div id="shadow"></div>
+            <div id="shadow2"></div>
+            <div id="cinema_screen"></div>
+        </div>
+        
+        <br>
+
+        <div id="seats">
+            <div class=row id="row_1">
+                <button class="seat 01"></button>
+                <button class="seat 02"></button>
+                <button class="seat 03"></button>
+                <button class="seat 04"></button>
+                <button class="seat 05"></button>
+                <button class="seat 06"></button>
+            </div>
+
+            <div class=row id="row_2">
+                <button class="seat 07"></button>
+                <button class="seat 08 occ"></button>
+                <button class="seat 09"></button>
+                <button class="seat 10"></button>
+                <button class="seat 11"></button>
+                <button class="seat 12"></button>
+            </div>
+
+            <div class=row id="row_3">
+                <button class="seat 13"></button>
+                <button class="seat 14"></button>
+                <button class="seat 15"></button>
+                <button class="seat 16"></button>
+                <button class="seat 17 occ"></button>
+                <button class="seat 18"></button>
+            </div>
+ 
+            <div id="row_4" class=row>
+                <button class="seat 19"></button>
+                <button class="seat 20 occ"></button>
+                <button class="seat 21 occ"></button>
+                <button class="seat 22"></button>
+                <button class="seat 23"></button>
+                <button class="seat 24"></button>
+            </div>
+
+            <div id="row_5" class=row>
+                <button class="seat 25"></button>
+                <button class="seat 26"></button>
+                <button class="seat 27"></button>
+                <button class="seat 28"></button>
+                <button class="seat 29 occ"></button>
+                <button class="seat 30 occ"></button>
+            </div>
+            
+            <div id="row_6" class=row>
+                <button class="seat 31"></button>
+                <button class="seat 32"></button>
+                <button class="seat 33"></button>
+                <button class="seat 34"></button>
+                <button class="seat 35"></button>
+                <button class="seat 36"></button>
+            </div>
+
+            <div id="row_7" class=row>
+                <button class="seat 37"></button>
+                <button class="seat 38"></button>
+                <button class="seat 39 occ"></button>
+                <button class="seat 40"></button>
+                <button class="seat 41"></button>
+                <button class="seat 42"></button>
+            </div>
+
+            <div id="row_8" class=row>
+                <button class="seat 43"></button>
+                <button class="seat 44"></button>
+                <button class="seat 45 occ"></button>
+                <button class="seat 46"></button>
+                <button class="seat 47"></button>
+                <button class="seat 48"></button>
+            </div>
+        </div>
+
+        <br>
+
+        <p id="error">Already Occupied</p>
+        <p ><small id="ans"></small></p>
+
+    </div>
+
+    <script>
+
+        let allSeat=document.getElementsByClassName('seat');
+        // console.log(allSeat);
+        let allOccSeat=document.getElementsByClassName('occ');
+        // console.log(allOccSeat)
+        let error=document.getElementById('error')
+        // console.log(ans)
+        let ans=document.getElementById('ans')
+
+
+        // function allBlueSeats(){
+        //     let b=0;
+        //     var i;
+        //     for(i=0; i<allSeat.length;i++ ){
+        //         if(allSeat[i].style.backgroundColor==='aqua'){
+        //         b+=1;
+        //         }
+        //     }
+        //      return b;
+        // }
+
+        let selSeats=0;
+        let price=0;
+        var i;
+        for(i=0; i<allSeat.length; i++){
+            allSeat[i].addEventListener('click', function (){
+                if(this.style.backgroundColor==='aqua'){
+                    selSeats-=1;
+                    price-=8;
+                    this.style.backgroundColor='rgba(112, 112, 112, 0.842)'
+                    ans.innerHTML= `You have selected <span style="color: aqua">${selSeats}</span> seat for a price of <span style="color: aqua">$${price}</span>`;
+
+                    // ans.textContent= 'Your have selected '+allBlueSeats()+'seats'
+                }
+                else if(this.classList.contains('occ')){
+                    error.style.display= 'block';
+                    setTimeout(function (){
+                        error.style.display='none'
+                    }, 3000);
+
+                }else{
+
+                    this.style.backgroundColor='aqua';
+                    selSeats+=1;
+                    price+=8;
+                    ans.innerHTML= `You have selected <span style="color: aqua">${selSeats}</span> seat for a price of <span style="color: aqua">$${price}</span>`;
+
+                    // ans.textContent= 'Your have selected '+allBlueSeats()+'seats'
+                }
+            })
+        }
+    </script>
+</body>
+</html>
